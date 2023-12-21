@@ -1,4 +1,4 @@
-package com.example.pokedex.views
+package com.example.pokedex.ui.screens
 
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
@@ -22,7 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -39,19 +38,19 @@ import androidx.compose.ui.unit.times
 import coil.compose.rememberAsyncImagePainter
 import com.example.pokedex.data.models.Pokemon
 import com.example.pokedex.ui.theme.Purple40
-import com.example.pokedex.viewmodels.PokemonViewModel
+import com.example.pokedex.ui.viewmodels.PokemonViewModelImpl
 
 
 @Composable
-fun PokemonView(pokemonViewModel: PokemonViewModel) {
-    val pokemon by pokemonViewModel.pokemon.observeAsState()
+fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
+    val pokemon by pokemonViewModelImpl.pokemon.observeAsState()
 
     val context = LocalContext.current
     val activity = context as? ComponentActivity
     activity?.let { it ->
         val statusBarColor = pokemon?.let {
             it.types.getOrNull(0)?.type?.name?.let { typeName ->
-                pokemonViewModel.getTypeColor(typeName)
+                pokemonViewModelImpl.getTypeColor(typeName)
             }
         } ?: Color.Red
 
@@ -67,7 +66,7 @@ fun PokemonView(pokemonViewModel: PokemonViewModel) {
                 .background(Color.DarkGray),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopBar(pokemon, pokemonViewModel)
+            TopBar(pokemon, pokemonViewModelImpl)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -75,7 +74,7 @@ fun PokemonView(pokemonViewModel: PokemonViewModel) {
                     .clip(RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
                     .background(pokemon.let {
                         it.types.getOrNull(0)?.type?.name?.let { it1 ->
-                            pokemonViewModel.getTypeColor(
+                            pokemonViewModelImpl.getTypeColor(
                                 it1
                             )
                         }
@@ -109,7 +108,7 @@ fun PokemonView(pokemonViewModel: PokemonViewModel) {
                                 topEnd = 50.dp
                             )
                         )
-                        .background(pokemonViewModel.getTypeColor(type.type.name)!!),
+                        .background(pokemonViewModelImpl.getTypeColor(type.type.name)!!),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -217,7 +216,7 @@ fun PokemonView(pokemonViewModel: PokemonViewModel) {
                                 .width((255 * stat.baseStat.dp) / 255)
                                 .height(20.dp)
                                 .clip(shape = RoundedCornerShape(20.dp))
-                                .background(pokemonViewModel.getStatColor(stat.stat.name)!!)
+                                .background(pokemonViewModelImpl.getStatColor(stat.stat.name)!!)
                                 .clip(RoundedCornerShape(20.dp)),
                             contentAlignment = Alignment.Center
                         ) {}
@@ -238,7 +237,7 @@ fun PokemonView(pokemonViewModel: PokemonViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(pokemon: Pokemon, pokemonViewModel: PokemonViewModel) {
+fun TopBar(pokemon: Pokemon, pokemonViewModelmpl: PokemonViewModelImpl) {
     TopAppBar(
         title = {
             Text(
@@ -260,7 +259,7 @@ fun TopBar(pokemon: Pokemon, pokemonViewModel: PokemonViewModel) {
         },
         colors = TopAppBarDefaults.smallTopAppBarColors(
             pokemon.types.getOrNull(0)?.type?.name?.let { typeName ->
-                pokemonViewModel.getTypeColor(typeName) ?: Purple40
+                pokemonViewModelmpl.getTypeColor(typeName) ?: Purple40
             } ?: Color.Red,
         ),
         actions = {

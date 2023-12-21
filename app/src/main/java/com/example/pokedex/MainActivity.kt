@@ -9,24 +9,30 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.pokedex.data.repositories.PokemonRepository
+import com.example.pokedex.data.repositories.PokemonRepositoryImpl
 import com.example.pokedex.ui.theme.PokedexTheme
-import com.example.pokedex.viewmodels.PokemonViewModel
-import com.example.pokedex.views.PokemonView
+import com.example.pokedex.ui.viewmodels.PokemonViewModelImpl
+import com.example.pokedex.ui.screens.PokemonView
+import com.example.pokedex.ui.viewmodels.PokemonViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject
+    lateinit var pokemonRepository: PokemonRepository
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val infoPokemonViewModel: PokemonViewModel by viewModels()
+            val pokemonViewModel: PokemonViewModel by viewModels()
             PokedexTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    PokemonView(pokemonViewModel = infoPokemonViewModel)
+                    PokemonView(pokemonViewModel = PokemonViewModel)
                 }
             }
         }
