@@ -1,10 +1,10 @@
-package com.example.pokedex.data.repositories
+package com.example.pokedex.domain.repositories
 
 import com.example.pokedex.data.models.Pokemon
-import com.example.pokedex.data.models.StatColor
-import com.example.pokedex.data.models.TypeColor
+import com.example.pokedex.ui.utils.StatColor
+import com.example.pokedex.ui.utils.TypeColor
 
-interface PokemonRepository {
+interface IPokemonRepository {
     fun getPokemon(): Pokemon
     fun colorTypes(): HashMap<String, TypeColor>
     fun statsTypes(): HashMap<String, StatColor>

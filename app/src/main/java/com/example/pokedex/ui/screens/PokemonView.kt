@@ -38,19 +38,19 @@ import androidx.compose.ui.unit.times
 import coil.compose.rememberAsyncImagePainter
 import com.example.pokedex.data.models.Pokemon
 import com.example.pokedex.ui.theme.Purple40
-import com.example.pokedex.ui.viewmodels.PokemonViewModelImpl
+import com.example.pokedex.ui.viewmodels.PokemonViewModel
 
 
 @Composable
-fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
-    val pokemon by pokemonViewModelImpl.pokemon.observeAsState()
+fun PokemonView(pokemonViewModel: PokemonViewModel) {
+    val pokemon by pokemonViewModel.pokemon.observeAsState()
 
     val context = LocalContext.current
     val activity = context as? ComponentActivity
     activity?.let { it ->
         val statusBarColor = pokemon?.let {
             it.types.getOrNull(0)?.type?.name?.let { typeName ->
-                pokemonViewModelImpl.getTypeColor(typeName)
+                pokemonViewModel.getTypeColor(typeName)
             }
         } ?: Color.Red
 
@@ -66,7 +66,7 @@ fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
                 .background(Color.DarkGray),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            TopBar(pokemon, pokemonViewModelImpl)
+            TopBar(pokemon, pokemonViewModel)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -74,7 +74,7 @@ fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
                     .clip(RoundedCornerShape(bottomStart = 50.dp, bottomEnd = 50.dp))
                     .background(pokemon.let {
                         it.types.getOrNull(0)?.type?.name?.let { it1 ->
-                            pokemonViewModelImpl.getTypeColor(
+                            pokemonViewModel.getTypeColor(
                                 it1
                             )
                         }
@@ -108,7 +108,7 @@ fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
                                 topEnd = 50.dp
                             )
                         )
-                        .background(pokemonViewModelImpl.getTypeColor(type.type.name)!!),
+                        .background(pokemonViewModel.getTypeColor(type.type.name)!!),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -216,7 +216,7 @@ fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
                                 .width((255 * stat.baseStat.dp) / 255)
                                 .height(20.dp)
                                 .clip(shape = RoundedCornerShape(20.dp))
-                                .background(pokemonViewModelImpl.getStatColor(stat.stat.name)!!)
+                                .background(pokemonViewModel.getStatColor(stat.stat.name)!!)
                                 .clip(RoundedCornerShape(20.dp)),
                             contentAlignment = Alignment.Center
                         ) {}
@@ -237,7 +237,7 @@ fun PokemonView(pokemonViewModelImpl: PokemonViewModelImpl) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar(pokemon: Pokemon, pokemonViewModelmpl: PokemonViewModelImpl) {
+fun TopBar(pokemon: Pokemon, pokemonViewModelmpl: PokemonViewModel) {
     TopAppBar(
         title = {
             Text(
