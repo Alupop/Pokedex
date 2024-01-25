@@ -36,13 +36,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import coil.compose.rememberAsyncImagePainter
-import com.example.pokedex.data.models.Pokemon
+import com.example.pokedex.domain.models.Pokemon
 import com.example.pokedex.ui.theme.Purple40
 import com.example.pokedex.ui.viewmodels.PokemonViewModel
 
 
 @Composable
-fun PokemonView(pokemonViewModel: PokemonViewModel) {
+fun PokemonView(pokemonViewModel: PokemonViewModel, name: String) {
+    pokemonViewModel.getPokemon(name)
     val pokemon by pokemonViewModel.pokemon.observeAsState()
 
     val context = LocalContext.current

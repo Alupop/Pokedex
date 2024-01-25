@@ -1,11 +1,13 @@
 package com.example.pokedex.domain.repositories
 
-import com.example.pokedex.data.models.Pokemon
-import com.example.pokedex.ui.utils.StatColor
-import com.example.pokedex.ui.utils.TypeColor
+import com.example.pokedex.data.dto.PokemonDTO
+import com.example.pokedex.data.dto.PokemonListDTO
+
 
 interface IPokemonRepository {
-    fun getPokemon(): Pokemon
-    fun colorTypes(): HashMap<String, TypeColor>
-    fun statsTypes(): HashMap<String, StatColor>
+    suspend fun getPokemonByName(name: String): PokemonDTO
+
+    suspend fun getPokemonList(offset: Int, limit: Int): PokemonListDTO
+
+    suspend fun getAllPokemonNames(): List<String>
 }
