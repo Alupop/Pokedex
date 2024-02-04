@@ -1,13 +1,13 @@
 package com.example.pokedex.domain.repositories
 
-import com.example.pokedex.data.dto.PokemonDTO
-import com.example.pokedex.data.dto.PokemonListDTO
+import com.example.pokedex.domain.models.PokemonListModel
+import com.example.pokedex.domain.models.PokemonModel
 
 
 interface IPokemonRepository {
-    suspend fun getPokemonByName(name: String): PokemonDTO
+    suspend fun getPokemon(name: String): PokemonModel?
 
-    suspend fun getPokemonList(offset: Int, limit: Int): PokemonListDTO
+    suspend fun getPokemonList(offset: Int, limit: Int): PokemonListModel
 
-    suspend fun getAllPokemonNames(): List<String>
+    suspend fun getAllPokemon(): List<String>
 }

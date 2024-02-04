@@ -29,9 +29,23 @@ val RockColor = Color(0xFFB8A038)
 val SteelColor = Color(0xFFB8B8D0)
 val WaterColor = Color(0xFF6890F0)
 
-val HpColor = Color(0xFFD50000)
-val AtkColor = Color(0xFFFFD600)
-val DefColor = Color(0xFFFF6D00)
-val S_AtkColor = Color(0xFF6200EA)
-val S_DefColor = Color(0xFF2962FF)
-val SpdColor = Color(0xFF00C853)
+val HpLightColor = Color(0xFF81C784)
+val HpDarkColor = Color(0xFF388E3C)
+
+val AtkLightColor = Color(0xFFFFF59D)
+val AtkDarkColor = Color(0xFFFFC107)
+
+val DefLightColor = Color(0xFFFFB74D)
+val DefDarkColor = Color(0xFFF57C00)
+
+val S_AtkLightColor = Color(0xFF64B5F6)
+val S_AtkDarkColor = Color(0xFF1976D2)
+
+val S_DefLightColor = Color(0xFFBA68C8)
+val S_DefDarkColor = Color(0xFF7B1FA2)
+
+val SpdLightColor = Color(0xFFEC407A)
+val SpdDarkColor = Color(0xFFC2185B)
+
+val TotalLightColor = Color(0xFFE57373)
+val TotalDarkColor = Color(0xFFC62828)

@@ -1,54 +1,46 @@
 package com.example.pokedex.ui.viewmodels
 
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.data.dto.PokemonDTO
-import com.example.pokedex.data.repositories.ApiRepositoryImpl
-import com.example.pokedex.data.repositories.JsonRepositoryImpl
+import com.example.pokedex.domain.models.PokemonModel
+import com.example.pokedex.domain.usecases.PokemonUseCase
 import com.example.pokedex.ui.utils.ColorStats
 import com.example.pokedex.ui.utils.ColorTypes
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
 import javax.inject.Inject
 
-class PokemonViewModel @Inject constructor (
-    private val apiRepositoryImpl: ApiRepositoryImpl,
-    private val jsonRepositoryImpl: JsonRepositoryImpl) : ViewModel() {
+@HiltViewModel
+class PokemonViewModel @Inject constructor(
+    private val pokemonUseCase: PokemonUseCase
+) : ViewModel() {
 
-    private var _pokemon = MutableLiveData<PokemonDTO>()
-    val pokemon: LiveData<PokemonDTO> = _pokemon
+    private var _pokemonModel = MutableLiveData<PokemonModel?>()
+    val pokemonModel: MutableLiveData<PokemonModel?> = _pokemonModel
 
     fun getPokemon(name: String) {
         viewModelScope.launch {
-            try {
-                val loadedPokemon = withContext(Dispatchers.IO) {
-                    apiRepositoryImpl.getPokemonByName(name)
-                }
-                _pokemon.postValue(loadedPokemon)
-
-            } catch (e: Exception) {
-                val loadedPokemon = withContext(Dispatchers.IO) {
-                    jsonRepositoryImpl.getPokemonByName(name)
-                }
-                _pokemon.postValue(loadedPokemon)
+            val loadedPokemon = withContext(Dispatchers.IO) {
+                pokemonUseCase.getPokemon(name)
             }
+            _pokemonModel.postValue(loadedPokemon)
         }
     }
 
-    private val mapTypeColor = ColorTypes()
+    private val mapTypesColor = ColorTypes()
     fun getTypeColor(type: String): Color? {
-        val typeColor = mapTypeColor[type.lowercase(Locale.ROOT)]
-        return typeColor?.color
+        val typesColor = mapTypesColor[type.lowercase(Locale.ROOT)]
+        return typesColor?.color
     }
 
-    private val mapStatColor = ColorStats()
-    fun getStatColor(type: String): Color? {
-        val statColor = mapStatColor[type.lowercase(Locale.ROOT)]
-        return statColor?.color
+    private val mapStatsColor = ColorStats()
+    fun getStatColors(type: String): Pair<Color, Color>? {
+        val statsColor = mapStatsColor[type.lowercase(Locale.ROOT)]
+        return statsColor?.let { Pair(it.lightColor, it.darkColor) }
     }
 }
